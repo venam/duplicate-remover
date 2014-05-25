@@ -1,7 +1,7 @@
 #Duplicate File Remover & Lister
 
 Usage:
-`
+<pre>
   duplicate_remover.pl  [ --list | --listduplicate| --remove ] [ Options ]
 	--help                  Display this help message
 	--list                  List all the files with hashes
@@ -10,7 +10,7 @@ Usage:
 	--remove                Remove duplicates (keeps the first file found)
 	--recursive             If the search is recursive or not
 	--blacklist "file"      A file containing regex of ignored files
-`
+</pre>
 
 Example:
 
