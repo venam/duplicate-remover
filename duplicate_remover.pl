@@ -34,6 +34,7 @@
 use warnings;
 use strict;
 use Getopt::Long;
+use Digest::MD5;
 use Cwd;
 
 #
@@ -106,15 +107,19 @@ sub get_hash($) {
 	$f_to_get_hash =~ s/\(/\\\(/gg;
 	$f_to_get_hash =~ s/\)/\\\)/gg;
 
-	my $f_hash;
-	open (OUTPUT, "md5sum $f_to_get_hash |");
-	while (<OUTPUT>){
-		$f_hash = (split / /, $_)[0];
-		last;
+	my $digest = "";
+	eval{
+		open(FILE, $f_to_get_hash) or die "$MINUS Can't find file $f_to_get_hash\n";
+		my $ctx = Digest::MD5->new;
+		$ctx->addfile(*FILE);
+		$digest = $ctx->hexdigest;
+		close(FILE);
+	};
+	if($@){
+		print $@;
+		return "";
 	}
-	close OUTPUT;
-
-	return $f_hash;
+	return $digest;
 }
 
 #manages the file array
