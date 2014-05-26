@@ -75,6 +75,7 @@ my $list_dup      = 0;
 my $remove        = 0;
 my $recursive     = 0;
 my $verbose       = 0;
+my $nocolor       = 0;
 my $dir           = $ENV{"HOME"}; #default
 my $blacklist     = "";
 
@@ -240,6 +241,7 @@ sub usage() {
 	$OKGREEN--remove$ENDC                Remove duplicates (keeps the first file found)
 	$OKGREEN--recursive$ENDC             If the search is recursive or not
 	$OKGREEN--blacklist "file"$ENDC      A file containing regex of ignored files
+	$OKGREEN--nocolor                    If this arguments is specified the outputs won't be colored
 	\n#;
 }
 
@@ -252,8 +254,22 @@ GetOptions (
 	"remove"         => \$remove,
 	"blacklist=s"    => \$blacklist,
 	"recursive"      => \$recursive,
-	"verbose"        => \$verbose
+	"verbose"        => \$verbose,
+	"nocolor"        => \$nocolor
 )  or die("$MINUS Error in command line arguments\n");
+
+if ($nocolor) {
+	$HEADER      = "";
+	$OKBLUE      = "";
+	$OKGREEN     = "";
+	$WARNING     = "";
+	$FAIL        = "";
+	$ENDC        = "";
+	$INFO        = "[*] ";
+	$ARROW       = " >> ";
+	$PLUS        = "[+] ";
+	$MINUS       = "[-] ";
+}
 
 #defensive programming part
 if ($help) {
